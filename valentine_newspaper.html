@@ -130,7 +130,7 @@
         .content-section {
             padding: 20px 40px;
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-columns: 1fr;
             gap: 30px;
         }
 
@@ -138,6 +138,12 @@
             font-size: 14px;
             line-height: 1.6;
             color: #2b2620;
+        }
+
+        .article::after {
+            content: "";
+            display: block;
+            clear: both;
         }
 
         .article-title {
@@ -162,16 +168,16 @@
         }
 
         .photo-stack {
-            position: relative;
+            float: right;
             display: flex;
-            gap: 16px;
-            justify-content: flex-end;
+            gap: 12px;
             align-items: flex-end;
-            padding-top: 14px;
+            margin: 8px 0 12px 18px;
+            padding-top: 6px;
         }
 
         .photo-stack img {
-            width: 170px;
+            width: 90px;
             aspect-ratio: 3/4;
             object-fit: cover;
             border: 2px solid #9a8f7d;
@@ -282,29 +288,19 @@
         <!-- Content Section -->
         <div class="content-section">
             <div class="article">
-                <div class="article-title">Dear Tinea,</div>
-                <p>
-                    Dear Cutegirl,
-                    <br><br>
-                    Happy Valentine’s Day 🙂
-                    <br><br>
-                    I just wanted to say I really appreciate having you around. You bring good vibes, calm moments, and plenty laughs, and honestly that means a lot. Even on regular days, you make things feel lighter and more enjoyable.
-                    <br><br>
-                    I’m really glad for the conversations we have, the random check-ins, the jokes, and just the normal everyday moments. Life gets busy and moves fast, so it’s nice having people around who make things feel easy and natural.
-                    <br><br>
-                    I hope today is good to you. I hope you get time to relax, eat something nice, maybe do something you enjoy, and just have a good day overall. Valentine’s Day can be a lot sometimes, so I hope yours is simple, stress-free, and just generally good vibes.
-                    <br><br>
-                    Anyway, just wanted to say happy Valentine’s Day and hope you’re smiling today. Enjoy the day, take care of yourself, and don’t let anybody stress you 🙂
-                    <br><br>
-                    Happy Valentine’s Day again ❤️
-                </p>
-            </div>
-
-            <div class="photo-stack">
-                <img class="photo-left" src="resources/images/5dba2ef7-d309-4853-a525-45136864d917.JPG" alt="Photo 1">
-                <img class="photo-center" src="resources/images/c337bf1d-eef0-4d29-99a7-10bed0369a24.JPG" alt="Photo 2">
-                <img class="photo-right" src="resources/images/f490c74d-66e6-492f-b071-c9c1dcca2569.JPG" alt="Photo 3">
-            </div>
+                <p><strong>Dear Cutegirl,</strong></p>
+                <p>Happy Valentine’s Day 🙂</p>
+                <p>I just wanted to say I really appreciate having you around. You bring good vibes, calm moments, and plenty laughs, and honestly that means a lot. Even on regular days, you make things feel lighter and more enjoyable.</p>
+                <div class="photo-stack">
+                    <img class="photo-left" src="resources/images/5dba2ef7-d309-4853-a525-45136864d917.JPG" alt="Photo 1">
+                    <img class="photo-center" src="resources/images/c337bf1d-eef0-4d29-99a7-10bed0369a24.JPG" alt="Photo 2">
+                    <img class="photo-right" src="resources/images/f490c74d-66e6-492f-b071-c9c1dcca2569.JPG" alt="Photo 3">
+                </div>
+                <p>I’m really glad for the conversations we have, the random check-ins, the jokes, and just the normal everyday moments. Life gets busy and moves fast, so it’s nice having people around who make things feel easy and natural.</p>
+                <p>I hope today is good to you. I hope you get time to relax, eat something nice, maybe do something you enjoy, and just have a good day overall. Valentine’s Day can be a lot sometimes, so I hope yours is simple, stress-free, and just generally good vibes.</p>
+                <p>Anyway, just wanted to say happy Valentine’s Day and hope you’re smiling today. Enjoy the day, take care of yourself, and don’t let anybody stress you 🙂</p>
+                <p>Happy Valentine’s Day again ❤️</p>
+                </div>
         </div>
 
         <!-- Quote Box -->
