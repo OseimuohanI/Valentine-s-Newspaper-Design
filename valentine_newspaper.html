@@ -161,6 +161,37 @@
             justify-self: end;
         }
 
+        .photo-stack {
+            position: relative;
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding-top: 14px;
+        }
+
+        .photo-stack img {
+            width: 170px;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border: 2px solid #9a8f7d;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+            background: #e6dfd2;
+        }
+
+        .photo-left {
+            transform: translateY(-14px) rotate(-4deg);
+        }
+
+        .photo-center {
+            transform: rotate(1.5deg);
+        }
+
+        .photo-right {
+            transform: translateY(-4px) rotate(3deg);
+        }
+
         .full-width-image {
             grid-column: 1 / -1;
             aspect-ratio: 16/9;
@@ -269,8 +300,10 @@
                 </p>
             </div>
 
-            <div class="image-placeholder">
-                [Photo 1]
+            <div class="photo-stack">
+                <img class="photo-left" src="resources/images/5dba2ef7-d309-4853-a525-45136864d917.JPG" alt="Photo 1">
+                <img class="photo-center" src="resources/images/c337bf1d-eef0-4d29-99a7-10bed0369a24.JPG" alt="Photo 2">
+                <img class="photo-right" src="resources/images/f490c74d-66e6-492f-b071-c9c1dcca2569.JPG" alt="Photo 3">
             </div>
         </div>
 
@@ -278,16 +311,6 @@
         <div style="padding: 0 40px;">
             <div class="text-box">
                 Maybe this is what the definition of soulmate is, not someone who completes you, but someone who inspires you to complete yourself and for this, I'm forever grateful.
-            </div>
-        </div>
-
-        <!-- Bottom Image -->
-        <div class="photo-grid">
-            <div class="photo-slot">
-                [Photo 2]
-            </div>
-            <div class="photo-slot">
-                [Photo 3]
             </div>
         </div>
 
