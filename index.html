@@ -21,9 +21,224 @@
             align-items: center;
             min-height: 100vh;
             color: #222;
+            position: relative;
+            overflow-x: hidden;
+            perspective: 1200px;
+        }
+
+        .intro-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(233, 225, 210, 0.72);
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 450ms ease;
+        }
+
+        .intro-overlay.done {
+            opacity: 0;
+        }
+
+        .envelope-scene {
+            position: relative;
+            width: 340px;
+            height: 250px;
+            filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.25));
+        }
+
+        .envelope-back {
+            position: absolute;
+            inset: 64px 28px 10px;
+            background: #deceb6;
+            border: 1px solid #b8a792;
+            border-radius: 6px;
+        }
+
+        .envelope-paper {
+            position: absolute;
+            left: 68px;
+            right: 68px;
+            top: 90px;
+            height: 132px;
+            background: transparent;
+            border: 1px solid #c8baa6;
+            border-radius: 3px;
+            box-shadow: 0 8px 14px rgba(0, 0, 0, 0.14);
+            transform-origin: center top;
+            transform: translateY(38px) scaleY(0.5);
+            opacity: 0;
+            overflow: hidden;
+            perspective: 900px;
+            animation: paperLiftAndOpen 1800ms 500ms ease forwards;
+        }
+
+        .paper-half {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #f9f2e6;
+        }
+
+        .paper-bottom {
+            bottom: 0;
+            background:
+                linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.02) 40%, transparent 78%),
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0 1px, transparent 1px 4px),
+                #f9f2e6;
+        }
+
+        .paper-top {
+            top: 0;
+            transform-origin: bottom center;
+            transform: rotateX(0deg);
+            background:
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.03) 42%, transparent 85%),
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0 1px, transparent 1px 4px),
+                #f9f2e6;
+            border-bottom: 1px solid rgba(88, 74, 61, 0.28);
+            animation: unfoldTopHalf 900ms 1450ms cubic-bezier(0.2, 0.86, 0.2, 1) forwards;
+            backface-visibility: hidden;
+            z-index: 2;
+        }
+
+        .paper-message {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 55%;
+            transform: translateY(-50%);
+            text-align: center;
+            color: rgba(73, 59, 47, 0.68);
+            font-size: 15px;
+            letter-spacing: 0.4px;
+            font-style: italic;
+            opacity: 0;
+            animation: revealInnerNote 550ms 1750ms ease forwards;
+            z-index: 1;
+        }
+
+        .paper-crease {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background: rgba(90, 78, 66, 0.35);
+            z-index: 3;
+            opacity: 0.7;
+            animation: creaseSoften 900ms 1450ms ease forwards;
+        }
+
+        .envelope-front {
+            position: absolute;
+            left: 28px;
+            right: 28px;
+            bottom: 10px;
+            height: 134px;
+            background: #deceb6;
+            border: 1px solid #b8a792;
+            border-radius: 6px;
+            z-index: 4;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            left: 28px;
+            right: 28px;
+            top: 24px;
+            height: 126px;
+            background:
+                linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.02) 35%, transparent 60%),
+                #dbc9b0;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            border: 1px solid #b8a792;
+            border-bottom: none;
+            transform-origin: top center;
+            z-index: 5;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.12);
+            animation: openFlap 1200ms 200ms ease forwards;
+        }
+
+        @keyframes openFlap {
+            0% { transform: rotateX(0deg); box-shadow: 0 6px 10px rgba(0,0,0,0.12); }
+            100% { transform: rotateX(-172deg); box-shadow: 0 18px 28px rgba(0,0,0,0.18); }
+        }
+
+        @keyframes paperLiftAndOpen {
+            0% {
+                transform: translateY(38px) scaleY(0.5);
+                opacity: 0;
+            }
+            28% {
+                opacity: 1;
+            }
+            56% {
+                transform: translateY(-24px) scaleY(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-16px) scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes unfoldTopHalf {
+            0% {
+                transform: rotateX(0deg);
+                box-shadow: inset 0 7px 10px rgba(0, 0, 0, 0.1);
+            }
+            100% {
+                transform: rotateX(-178deg);
+                box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        @keyframes revealInnerNote {
+            0% { opacity: 0; transform: translateY(-45%); }
+            100% { opacity: 1; transform: translateY(-50%); }
+        }
+
+        @keyframes creaseSoften {
+            0% { opacity: 0.7; }
+            100% { opacity: 0.28; }
+        }
+
+        .envelope-paper.expand-to-page {
+            background: #f9f2e6;
+            border-color: #d9cdb9;
+            border-radius: 0;
+            animation: paperExpandToPage 900ms 120ms cubic-bezier(0.2, 0.86, 0.2, 1) forwards;
+            z-index: 6;
+        }
+
+        .envelope-paper.expand-to-page .paper-top,
+        .envelope-paper.expand-to-page .paper-bottom,
+        .envelope-paper.expand-to-page .paper-crease,
+        .envelope-paper.expand-to-page .paper-message {
+            opacity: 0;
+            transition: opacity 180ms ease;
+        }
+
+        @keyframes paperExpandToPage {
+            0% {
+                transform: translateY(-16px) scale(1);
+                box-shadow: 0 8px 14px rgba(0,0,0,0.14);
+            }
+            100% {
+                transform: translate(-20vw, -25vh) scale(2.2);
+                box-shadow: 0 24px 36px rgba(0,0,0,0.18);
+            }
         }
 
         .newspaper {
+            --mouse-x: 0px;
+            --mouse-y: 0px;
+            --tilt-x: 0deg;
+            --tilt-y: 0deg;
             width: 800px;
             background: #f9f2e6;
             background-image:
@@ -36,6 +251,101 @@
             border: 1px solid #c9bfae;
             box-shadow: 0 12px 30px rgba(0,0,0,0.18);
             position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform-origin: center center;
+            transform:
+                translate3d(var(--mouse-x), var(--mouse-y), 0)
+                rotateX(var(--tilt-x))
+                rotateY(var(--tilt-y))
+                translateY(24px)
+                scaleX(0.86)
+                scaleY(1.12)
+                rotate(-1.3deg)
+                skewX(2.2deg);
+            filter: saturate(0.95) contrast(0.95);
+            transition: box-shadow 220ms ease;
+            visibility: hidden;
+        }
+
+        body.loaded .newspaper {
+            visibility: visible;
+            animation: revealLetter 860ms cubic-bezier(0.2, 0.86, 0.2, 1) forwards;
+        }
+
+        @keyframes revealLetter {
+            0% {
+                opacity: 0;
+                transform:
+                    translate3d(var(--mouse-x), var(--mouse-y), 0)
+                    rotateX(var(--tilt-x))
+                    rotateY(var(--tilt-y))
+                    translateY(12px)
+                    scaleX(1)
+                    scaleY(0.52)
+                    rotate(-0.4deg)
+                    skewX(0.8deg);
+                filter: saturate(0.95) contrast(0.95);
+            }
+            58% {
+                opacity: 1;
+                transform:
+                    translate3d(var(--mouse-x), var(--mouse-y), 0)
+                    rotateX(var(--tilt-x))
+                    rotateY(var(--tilt-y))
+                    translateY(-2px)
+                    scaleX(1)
+                    scaleY(1.03)
+                    rotate(0.25deg)
+                    skewX(-0.2deg);
+                filter: saturate(1.01) contrast(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform:
+                    translate3d(var(--mouse-x), var(--mouse-y), 0)
+                    rotateX(var(--tilt-x))
+                    rotateY(var(--tilt-y))
+                    translateY(0)
+                    scale(1)
+                    rotate(0deg)
+                    skewX(0deg);
+                filter: saturate(1) contrast(1);
+            }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -40px;
+            opacity: 0;
+            animation: floatHeart linear forwards;
+            will-change: transform, opacity;
+            user-select: none;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            70% {
+                opacity: 0.24;
+            }
+            100% {
+                transform: translateY(-120vh) translateX(var(--drift, 0px)) rotate(28deg);
+                opacity: 0;
+            }
         }
 
         .newspaper::before {
@@ -56,6 +366,31 @@
             opacity: 0.35;
             pointer-events: none;
             z-index: 0;
+        }
+
+        .newspaper::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(112deg, transparent 0 18%, rgba(78, 68, 58, 0.16) 24%, transparent 30%),
+                linear-gradient(70deg, transparent 0 48%, rgba(82, 70, 59, 0.14) 54%, transparent 62%),
+                linear-gradient(138deg, transparent 0 64%, rgba(78, 68, 58, 0.13) 71%, transparent 78%),
+                radial-gradient(340px 200px at 18% 26%, rgba(0,0,0,0.08), transparent 72%),
+                radial-gradient(280px 180px at 74% 66%, rgba(0,0,0,0.08), transparent 74%);
+            mix-blend-mode: multiply;
+            opacity: 0.42;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body.loaded .newspaper::after {
+            animation: flattenCreases 1200ms ease forwards;
+        }
+
+        @keyframes flattenCreases {
+            0% { opacity: 0.42; }
+            100% { opacity: 0.17; }
         }
 
         .newspaper > * {
@@ -118,6 +453,26 @@
             line-height: 1.1;
         }
 
+        .typed-main,
+        .typed-script {
+            white-space: nowrap;
+        }
+
+        .typed-main {
+            display: inline-block;
+            min-width: 11.5ch;
+        }
+
+        .typed-script {
+            display: inline-block;
+            min-width: 10ch;
+            min-height: 1.2em;
+        }
+
+        .main-headline h1 {
+            min-height: 2.45em;
+        }
+
         .main-headline .script {
             font-family: 'Brush Script MT', cursive;
             font-style: italic;
@@ -151,6 +506,10 @@
             font-size: 14px;
             line-height: 1.6;
             color: #2b2620;
+        }
+
+        .article p:first-child {
+            font-weight: bold;
         }
 
         .article::after {
@@ -211,6 +570,12 @@
             transform: rotate(5deg);
         }
 
+        .photo-stack img {
+            transition: transform 180ms ease;
+            transform-origin: center bottom;
+            will-change: transform;
+        }
+
 
         .full-width-image {
             grid-column: 1 / -1;
@@ -238,6 +603,62 @@
             font-size: 32px;
             font-weight: normal;
             font-style: italic;
+            cursor: pointer;
+        }
+
+        .question-banner.is-popping {
+            animation: pulsePop 420ms ease;
+        }
+
+        @keyframes pulsePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .sparkle {
+            position: fixed;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            z-index: 5;
+            animation: sparkleBurst 850ms ease-out forwards;
+            will-change: transform, opacity;
+        }
+
+        @keyframes sparkleBurst {
+            0% {
+                transform: translate(0, 0) scale(0.6);
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .pointer-heart {
+            position: fixed;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            z-index: 6;
+            will-change: transform, opacity;
+            animation: pointerHeartFade 760ms ease-out forwards;
+        }
+
+        @keyframes pointerHeartFade {
+            0% {
+                transform: translate(-50%, -50%) scale(0.7);
+                opacity: 0.75;
+            }
+            100% {
+                transform: translate(calc(-50% + var(--trail-x)), calc(-50% + var(--trail-y))) scale(1.1);
+                opacity: 0;
+            }
         }
 
         .photo-grid {
@@ -273,11 +694,27 @@
             }
             .newspaper {
                 box-shadow: none;
+                transform: none !important;
+                animation: none !important;
             }
         }
     </style>
 </head>
 <body>
+    <div class="intro-overlay" id="intro-overlay" aria-hidden="true">
+        <div class="envelope-scene">
+            <div class="envelope-back"></div>
+            <div class="envelope-paper">
+                <div class="paper-half paper-bottom"></div>
+                <div class="paper-half paper-top"></div>
+                <div class="paper-message">A letter for you</div>
+                <div class="paper-crease"></div>
+            </div>
+            <div class="envelope-front"></div>
+            <div class="envelope-flap"></div>
+        </div>
+    </div>
+    <div class="floating-hearts" id="floating-hearts" aria-hidden="true"></div>
     <div class="newspaper">
         <!-- Header with pink strip -->
         <div class="header-strip">
@@ -294,8 +731,8 @@
         <!-- Main Headline -->
         <div class="main-headline">
             <h1>
-                WILL YOU BE MY<img class="headline-photo" src="resources/images/c337bf1d-eef0-4d29-99a7-10bed0369a24.JPG" alt="Photo"><br>
-                <span class="script">Valentine?</span>
+                <span class="typed-main" id="typed-main" data-text="WILL YOU BE MY">WILL YOU BE MY</span><img class="headline-photo" src="resources/images/c337bf1d-eef0-4d29-99a7-10bed0369a24.JPG" alt="Photo"><br>
+                <span class="script typed-script" id="typed-script" data-text="Valentine?">Valentine?</span>
             </h1>
         </div>
 
@@ -326,8 +763,237 @@
 
         <!-- Question Banner -->
         <div class="question-banner">
-            <h2>Will you be my Valentine?</h2>
+            <h2 id="proposal-question">Will you be my Valentine?</h2>
         </div>
     </div>
+
+    <script>
+        const body = document.body;
+        const introOverlay = document.getElementById('intro-overlay');
+        const heartsLayer = document.getElementById('floating-hearts');
+        const typedMain = document.getElementById('typed-main');
+        const typedScript = document.getElementById('typed-script');
+        const letterParagraphs = Array.from(document.querySelectorAll('.article p'));
+        const proposalQuestion = document.getElementById('proposal-question');
+        const questionBanner = proposalQuestion.closest('.question-banner');
+        const newspaper = document.querySelector('.newspaper');
+        const photoStack = document.querySelector('.photo-stack');
+        const stackImages = photoStack ? Array.from(photoStack.querySelectorAll('img')) : [];
+
+        const baseRotations = stackImages.map((image, index) => {
+            if (image.classList.contains('photo-left')) return -5;
+            if (image.classList.contains('photo-right')) return 5;
+            return 0;
+        });
+
+        const typeText = (element, text, speed, callback) => {
+            element.textContent = '';
+            let index = 0;
+            const timer = setInterval(() => {
+                element.textContent += text.charAt(index);
+                index += 1;
+                if (index >= text.length) {
+                    clearInterval(timer);
+                    if (callback) callback();
+                }
+            }, speed);
+        };
+
+        const prepareLetterTyping = (paragraphs) => {
+            return paragraphs.map((paragraph) => {
+                const text = paragraph.textContent;
+                const height = paragraph.offsetHeight;
+                paragraph.style.minHeight = `${height}px`;
+                paragraph.textContent = '';
+                return { paragraph, text };
+            });
+        };
+
+        const typeLetterParagraphs = (items, speed = 18, linePause = 170) => {
+            const typeNext = (index) => {
+                if (index >= items.length) return;
+                const current = items[index];
+                typeText(current.paragraph, current.text, speed, () => {
+                    setTimeout(() => typeNext(index + 1), linePause);
+                });
+            };
+
+            typeNext(0);
+        };
+
+        const spawnFloatingHeart = () => {
+            if (!heartsLayer) return;
+            const heart = document.createElement('span');
+            heart.className = 'floating-heart';
+            heart.textContent = Math.random() > 0.3 ? '❤' : '❣';
+            const left = Math.random() * 100;
+            const size = 10 + Math.random() * 16;
+            const duration = 7000 + Math.random() * 7000;
+            const drift = -30 + Math.random() * 60;
+
+            heart.style.left = `${left}vw`;
+            heart.style.fontSize = `${size}px`;
+            heart.style.animationDuration = `${duration}ms`;
+            heart.style.setProperty('--drift', `${drift}px`);
+            heart.style.color = 'rgba(185, 107, 119, 0.32)';
+
+            heartsLayer.appendChild(heart);
+            setTimeout(() => heart.remove(), duration);
+        };
+
+        const sparkleBurst = (x, y) => {
+            const symbols = ['❤', '✨', '❣', '✦'];
+            for (let index = 0; index < 18; index += 1) {
+                const particle = document.createElement('span');
+                particle.className = 'sparkle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.fontSize = `${10 + Math.random() * 12}px`;
+                const angle = (Math.PI * 2 * index) / 18;
+                const distance = 28 + Math.random() * 70;
+                const driftX = Math.cos(angle) * distance;
+                const driftY = Math.sin(angle) * distance - 10;
+                particle.style.setProperty('--x', `${driftX}px`);
+                particle.style.setProperty('--y', `${driftY}px`);
+
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 900);
+            }
+        };
+
+        const spawnPointerTrailHeart = (x, y) => {
+            const heart = document.createElement('span');
+            heart.className = 'pointer-heart';
+            heart.textContent = Math.random() > 0.15 ? '❤' : '✨';
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            heart.style.fontSize = `${8 + Math.random() * 8}px`;
+            heart.style.color = 'rgba(185, 107, 119, 0.68)';
+
+            const driftX = -14 + Math.random() * 28;
+            const driftY = -16 - Math.random() * 18;
+            heart.style.setProperty('--trail-x', `${driftX}px`);
+            heart.style.setProperty('--trail-y', `${driftY}px`);
+
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 780);
+        };
+
+        if (photoStack && stackImages.length) {
+            photoStack.addEventListener('mousemove', (event) => {
+                const bounds = photoStack.getBoundingClientRect();
+                const xRatio = (event.clientX - bounds.left) / bounds.width - 0.5;
+                const yRatio = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+                stackImages.forEach((image, index) => {
+                    const offsetX = xRatio * 8 * (index + 1) * 0.45;
+                    const offsetY = yRatio * 7 * (index + 1) * 0.45;
+                    const tilt = xRatio * 5;
+                    image.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${baseRotations[index] + tilt}deg)`;
+                });
+            });
+
+            photoStack.addEventListener('mouseleave', () => {
+                stackImages.forEach((image, index) => {
+                    image.style.transform = `rotate(${baseRotations[index]}deg)`;
+                });
+            });
+        }
+
+        if (proposalQuestion && questionBanner) {
+            proposalQuestion.addEventListener('click', (event) => {
+                questionBanner.classList.remove('is-popping');
+                void questionBanner.offsetWidth;
+                questionBanner.classList.add('is-popping');
+                sparkleBurst(event.clientX, event.clientY);
+            });
+
+            proposalQuestion.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    const rect = proposalQuestion.getBoundingClientRect();
+                    sparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                }
+            });
+        }
+
+        if (newspaper) {
+            window.addEventListener('mousemove', (event) => {
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const xRatio = (event.clientX - centerX) / centerX;
+                const yRatio = (event.clientY - centerY) / centerY;
+
+                const moveX = xRatio * 7;
+                const moveY = yRatio * 5;
+                const tiltY = xRatio * 2.1;
+                const tiltX = -yRatio * 1.6;
+
+                newspaper.style.setProperty('--mouse-x', `${moveX}px`);
+                newspaper.style.setProperty('--mouse-y', `${moveY}px`);
+                newspaper.style.setProperty('--tilt-y', `${tiltY}deg`);
+                newspaper.style.setProperty('--tilt-x', `${tiltX}deg`);
+            });
+
+            window.addEventListener('mouseleave', () => {
+                newspaper.style.setProperty('--mouse-x', '0px');
+                newspaper.style.setProperty('--mouse-y', '0px');
+                newspaper.style.setProperty('--tilt-y', '0deg');
+                newspaper.style.setProperty('--tilt-x', '0deg');
+            });
+        }
+
+        let lastTrailSpawnTime = 0;
+        window.addEventListener('mousemove', (event) => {
+            const now = Date.now();
+            if (now - lastTrailSpawnTime < 40) return;
+            lastTrailSpawnTime = now;
+            spawnPointerTrailHeart(event.clientX, event.clientY);
+        });
+
+        window.addEventListener('load', () => {
+            const mainText = typedMain.dataset.text || typedMain.textContent;
+            const scriptText = typedScript.dataset.text || typedScript.textContent;
+            const preparedLetterLines = prepareLetterTyping(letterParagraphs);
+
+            let revealed = false;
+            const reveal = () => {
+                if (revealed) return;
+                revealed = true;
+                if (introOverlay) {
+                    introOverlay.classList.add('done');
+                    setTimeout(() => introOverlay.remove(), 600);
+                }
+                body.classList.add('loaded');
+                typedMain.textContent = mainText;
+                setTimeout(() => {
+                    typeText(typedScript, scriptText, 122, () => {
+                        setTimeout(() => typeLetterParagraphs(preparedLetterLines, 23, 180), 220);
+                    });
+                }, 220);
+                for (let count = 0; count < 8; count += 1) {
+                    setTimeout(spawnFloatingHeart, count * 260);
+                }
+                setInterval(spawnFloatingHeart, 900);
+            };
+
+            const paper = document.querySelector('.envelope-paper');
+            const paperTop = document.querySelector('.paper-top');
+            if (paper && paperTop) {
+                paperTop.addEventListener('animationend', (event) => {
+                    if (event.animationName === 'unfoldTopHalf') {
+                        paper.classList.add('expand-to-page');
+                        paper.addEventListener('animationend', (ev) => {
+                            if (ev.animationName === 'paperExpandToPage') {
+                                reveal();
+                            }
+                        }, { once: true });
+                    }
+                });
+            }
+
+            setTimeout(reveal, 5000);
+        });
+    </script>
 </body>
 </html>
